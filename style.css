@@ -5,15 +5,15 @@
   --beige: #E8E0D0;
   --beige-fonce: #C8B99A;
   --brun: #7A6A52;
-  --noir: #1A1A18;
-  --gris: #888880;
+  --noir: #2A2A28;
+  --gris: #999990;
   --beige-clair: #F4EFE6;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Nunito', sans-serif;
   background: var(--blanc);
   color: var(--noir);
   min-height: 100vh;
@@ -31,7 +31,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding: 3rem 1.5rem;
   animation: fadeIn 0.35s ease;
 }
 .screen.active { display: flex; }
@@ -42,62 +42,76 @@ body {
 }
 
 /* ===== ACCUEIL ===== */
-.accueil-wrapper { text-align: center; max-width: 480px; width: 100%; }
+.accueil-wrapper {
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
 
 .logo-tag {
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--beige-fonce);
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
 }
 
 .logo-titre {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3rem, 10vw, 5.5rem);
-  font-weight: 300;
-  line-height: 1;
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(2.4rem, 8vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
   color: var(--noir);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
 }
 
-.logo-titre span { color: var(--brun); font-style: italic; }
+.logo-titre span { color: var(--brun); }
 
 .logo-ville {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gris);
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
 }
 
 .ligne-deco {
-  width: 36px;
-  height: 1px;
+  width: 40px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--beige-fonce);
-  margin: 0 auto 3rem;
+  margin: 0 auto 2.5rem;
 }
 
 .btns-accueil {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
   align-items: center;
+  width: 100%;
 }
 
 /* ===== BOUTONS ===== */
 .btn-principal {
   width: 100%;
-  max-width: 300px;
-  padding: 1rem 2rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  max-width: 280px;
+  padding: 0.95rem 2rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--noir);
   background: transparent;
-  border: 1px solid var(--beige-fonce);
+  border: 1.5px solid var(--beige-fonce);
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
@@ -106,14 +120,16 @@ body {
   background: var(--beige-clair);
   border-color: var(--brun);
   color: var(--brun);
+  transform: translateY(-1px);
 }
 
 .btn-retour {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gris);
   background: none;
@@ -123,18 +139,19 @@ body {
   margin-bottom: 2rem;
   transition: color 0.2s;
   align-self: flex-start;
+  font-family: 'Nunito', sans-serif;
 }
 
 .btn-retour:hover { color: var(--noir); }
-.btn-retour::before { content: '← '; }
+.btn-retour::before { content: '←'; }
 
 /* ===== CONTACT ===== */
 .contact-wrapper { max-width: 420px; width: 100%; }
 
 .page-titre {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.8rem;
-  font-weight: 300;
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
   margin-bottom: 2rem;
   color: var(--noir);
 }
@@ -142,23 +159,25 @@ body {
 .contact-bloc {
   background: var(--beige-clair);
   padding: 2rem;
-  border-left: 2px solid var(--beige-fonce);
+  border-radius: 16px;
+  border-left: 3px solid var(--beige-fonce);
 }
 
 .contact-label {
   font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gris);
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
-.contact-email { font-size: 1rem; color: var(--brun); }
+.contact-email { font-size: 1rem; color: var(--brun); font-weight: 600; }
 
 .horaire-ligne {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.6rem 0;
   border-bottom: 1px solid var(--beige);
   font-size: 0.9rem;
 }
@@ -166,12 +185,12 @@ body {
 .horaire-jour { color: var(--gris); }
 
 /* ===== PRODUITS ===== */
-.produits-wrapper { max-width: 500px; width: 100%; }
+.produits-wrapper { max-width: 420px; width: 100%; }
 
 .cats-grid {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.85rem;
   margin-top: 1rem;
 }
 
@@ -186,14 +205,15 @@ body {
 
 .produit-card {
   background: var(--blanc);
-  border: 1px solid var(--beige);
+  border: 1.5px solid var(--beige);
+  border-radius: 16px;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .produit-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
 }
 
 .produit-img {
@@ -207,31 +227,33 @@ body {
 .produit-info { padding: 1.2rem; }
 
 .produit-nom {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  font-weight: 400;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--noir);
   margin-bottom: 0.3rem;
 }
 
-.produit-prix { font-size: 0.9rem; color: var(--brun); margin-bottom: 0.25rem; }
+.produit-prix { font-size: 0.95rem; color: var(--brun); font-weight: 700; margin-bottom: 0.2rem; }
 .produit-note { font-size: 0.75rem; color: var(--gris); font-style: italic; margin-bottom: 1rem; }
 
 .btn-reserver {
   width: 100%;
   padding: 0.75rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   background: var(--brun);
   color: var(--blanc);
   border: none;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.15s;
 }
 
-.btn-reserver:hover { background: var(--noir); }
+.btn-reserver:hover { background: var(--noir); transform: translateY(-1px); }
 
 /* ===== RÉSERVATION ===== */
 .resa-wrapper { max-width: 460px; width: 100%; }
@@ -241,7 +263,8 @@ body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--beige-fonce);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
 }
 
 .form-grid { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
@@ -251,23 +274,25 @@ body {
 
 label {
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gris);
+  font-weight: 600;
 }
 
 input[type="text"],
 input[type="tel"],
 input[type="date"],
 input[type="time"] {
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--beige);
+  padding: 0.85rem 1.1rem;
+  border: 1.5px solid var(--beige);
   background: var(--blanc);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.95rem;
   color: var(--noir);
   outline: none;
   transition: border-color 0.2s;
+  border-radius: 50px;
   width: 100%;
 }
 
@@ -276,13 +301,15 @@ input:focus { border-color: var(--brun); }
 .btn-envoyer {
   margin-top: 0.5rem;
   padding: 1rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   background: var(--noir);
   color: var(--blanc);
   border: none;
+  border-radius: 50px;
   cursor: pointer;
   transition: background 0.2s;
   width: 100%;
@@ -294,11 +321,13 @@ input:focus { border-color: var(--brun); }
 .msg-ok {
   display: none;
   background: var(--beige-clair);
-  border-left: 2px solid #5a8a5a;
+  border-left: 3px solid #5a8a5a;
+  border-radius: 12px;
   padding: 1rem 1.5rem;
   font-size: 0.9rem;
   color: var(--noir);
   margin-top: 0.5rem;
+  font-weight: 600;
 }
 
 /* ===== HISTORIQUE ===== */
@@ -317,32 +346,35 @@ input:focus { border-color: var(--brun); }
 .histo-item {
   background: var(--beige-clair);
   padding: 1.2rem 1.5rem;
-  border-left: 2px solid var(--beige-fonce);
+  border-radius: 14px;
+  border-left: 3px solid var(--beige-fonce);
 }
 
 .histo-produit {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem;
-  font-weight: 400;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--noir);
   margin-bottom: 0.3rem;
 }
 
-.histo-detail { font-size: 0.82rem; color: var(--gris); line-height: 1.8; }
+.histo-detail { font-size: 0.85rem; color: var(--gris); line-height: 1.8; }
 
 .histo-badge {
   display: inline-block;
   font-size: 0.65rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   background: #5a8a5a;
   color: white;
-  padding: 0.2rem 0.6rem;
-  margin-top: 0.5rem;
+  padding: 0.25rem 0.8rem;
+  border-radius: 50px;
+  margin-top: 0.6rem;
 }
 
 /* ===== MOBILE ===== */
 @media (max-width: 600px) {
   .produits-grid { grid-template-columns: 1fr; }
   .form-row { flex-direction: column; }
+  .logo-titre { font-size: 2.4rem; }
 }
