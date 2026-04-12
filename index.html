@@ -90,18 +90,18 @@
         <input type="number" id="quantite" min="1" max="50" placeholder="1" oninput="calculerPrix()">
       </div>
       <div class="prix-total" id="prix-total"></div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input type="date" id="date">
-        </div>
-        <div class="form-group">
-          <label for="heure">Heure</label>
-          <input type="time" id="heure" min="06:30" max="18:30">
-        </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" onchange="mettreAJourHoraires()">
+      </div>
+      <div class="form-group">
+        <label for="heure">Heure</label>
+        <input type="time" id="heure">
+        <span class="horaire-info" id="horaire-info"></span>
+        <span class="msg-erreur" id="erreur-heure"></span>
       </div>
       <button class="btn-envoyer" id="btn-envoyer" onclick="envoyerResa()">Confirmer la réservation</button>
-      <div class="msg-ok" id="msg-ok">✓ Réservation confirmée ! Un email a été envoyé.</div>
+      <div class="msg-ok" id="msg-ok">✓ Réservation confirmée ! Un email vous a été envoyé.</div>
     </div>
   </div>
 </div>
@@ -118,6 +118,7 @@
 <script>
   emailjs.init('6yctvBxWNUu6-w0Rb');
 
+  // Images soigneusement sélectionnées et vérifiées pour chaque produit
   const PRODUITS = {
     pain: {
       titre: 'Nos pains',
@@ -125,19 +126,22 @@
         {
           nom: 'Baguette tradition',
           prix: 1.10, affichePrix: '1,10 €', note: "l'unité",
-          img: 'https://images.unsplash.com/photo-1587248720327-8eb72564be1e?w=600&q=80',
+          // Baguette dorée sur planche en bois
+          img: 'https://images.unsplash.com/photo-1568471173242-461f0a730452?w=600&q=80',
           resa: false
         },
         {
           nom: 'Pain aux graines',
           prix: 1.20, affichePrix: '1,20 €', note: "l'unité",
-          img: 'https://images.unsplash.com/photo-1613987549117-13c8b311db7d?w=600&q=80',
+          // Pain aux graines tranché sur planche bois
+          img: 'https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?w=600&q=80',
           resa: false
         },
         {
           nom: 'Pain complet',
           prix: 1.20, affichePrix: '1,20 €', note: "l'unité",
-          img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80',
+          // Pain complet entier, croûte bien brunée
+          img: 'https://images.unsplash.com/photo-1582401656496-9d98b5e50f06?w=600&q=80',
           resa: false
         }
       ]
@@ -148,18 +152,21 @@
         {
           nom: 'Tarte aux fraises',
           prix: 3.50, affichePrix: '3,50 €', note: 'par personne',
-          img: 'https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=600&q=80',
+          // Tarte aux fraises entière vue de dessus, fraîche et colorée
+          img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80',
           resa: true, typeQte: 'personnes'
         },
         {
           nom: 'Tarte au chocolat',
           prix: 3.50, affichePrix: '3,50 €', note: 'par personne',
-          img: 'https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=600&q=80',
+          // Tarte au chocolat brillante vue de dessus
+          img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=80',
           resa: true, typeQte: 'personnes'
         },
         {
           nom: 'Cookie',
           prix: 1.80, affichePrix: '1,80 €', note: "l'unité",
+          // Cookie moelleux chaud chocolat fondu visible
           img: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80',
           resa: true, typeQte: 'cookies'
         }
@@ -171,18 +178,21 @@
         {
           nom: 'Soda',
           prix: 2.00, affichePrix: '2,00 €', note: 'la bouteille',
+          // Bouteille de soda sur table en bois
           img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=600&q=80',
           resa: false
         },
         {
           nom: 'Café',
           prix: 1.00, affichePrix: '1,00 €', note: 'la tasse',
+          // Expresso dans petite tasse blanche sur soucoupe
           img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=80',
           resa: false
         },
         {
           nom: 'Thé',
           prix: 3.00, affichePrix: '3,00 €', note: 'la théière',
+          // Tasse de thé avec sachet vue de dessus
           img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80',
           resa: false
         }
@@ -239,24 +249,63 @@
       prixTotal.style.display = 'none';
     }
 
+    // Date min = aujourd'hui
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').min = today;
+
+    // Réinitialiser horaire info
+    document.getElementById('horaire-info').textContent = '';
+    document.getElementById('erreur-heure').style.display = 'none';
+
+    // Horaires par défaut (lun-sam)
+    const heureInput = document.getElementById('heure');
+    heureInput.min = '06:30';
+    heureInput.max = '18:30';
+
     const btn = document.getElementById('btn-envoyer');
     btn.disabled = false;
     btn.textContent = 'Confirmer la réservation';
     btn.style.background = '';
     document.getElementById('msg-ok').style.display = 'none';
-    document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
     aller('screen-resa');
+  }
+
+  function mettreAJourHoraires() {
+    const dateVal = document.getElementById('date').value;
+    if (!dateVal) return;
+
+    const date = new Date(dateVal + 'T12:00:00');
+    const jourSemaine = date.getDay(); // 0 = dimanche
+
+    const heureInput = document.getElementById('heure');
+    const infoEl = document.getElementById('horaire-info');
+
+    if (jourSemaine === 0) {
+      // Dimanche
+      heureInput.min = '06:30';
+      heureInput.max = '12:30';
+      infoEl.textContent = 'Dimanche : ouvert de 06h30 à 12h30';
+      // Si une heure était déjà saisie et dépasse 12h30, on la réinitialise
+      if (heureInput.value > '12:30') heureInput.value = '';
+    } else {
+      // Lundi - Samedi
+      heureInput.min = '06:30';
+      heureInput.max = '18:30';
+      infoEl.textContent = 'Lundi – Samedi : ouvert de 06h30 à 18h30';
+    }
   }
 
   function calculerPrix() {
     if (!produitEnCours) return;
     const qte = parseInt(document.getElementById('quantite').value) || 0;
-    const total = (produitEnCours.prix * qte).toFixed(2).replace('.', ',');
     const prixEl = document.getElementById('prix-total');
     if (qte > 0) {
-      const label = produitEnCours.typeQte === 'cookies' ? 'cookie' : 'personne';
-      const labelPluriel = qte > 1 ? label + 's' : label;
-      prixEl.textContent = `Total : ${qte} ${labelPluriel} × ${produitEnCours.affichePrix} = ${total} €`;
+      const total = (produitEnCours.prix * qte).toFixed(2).replace('.', ',');
+      const label = produitEnCours.typeQte === 'cookies'
+        ? (qte > 1 ? 'cookies' : 'cookie')
+        : (qte > 1 ? 'personnes' : 'personne');
+      prixEl.textContent = `Total : ${qte} ${label} × ${produitEnCours.affichePrix} = ${total} €`;
       prixEl.style.display = 'block';
     } else {
       prixEl.style.display = 'none';
@@ -275,8 +324,19 @@
       alert('Merci de remplir tous les champs avant de confirmer.');
       return;
     }
-    if (produitEnCours.typeQte && !qte) {
+    if (produitEnCours.typeQte && (!qte || parseInt(qte) < 1)) {
       alert('Merci d\'indiquer la quantité souhaitée.');
+      return;
+    }
+
+    // Vérification heure selon jour
+    const jourSemaine = new Date(date + 'T12:00:00').getDay();
+    if (jourSemaine === 0 && heure > '12:30') {
+      alert('Le dimanche, nous fermons à 12h30. Merci de choisir une heure avant 12h30.');
+      return;
+    }
+    if (heure < '06:30') {
+      alert('Nous ouvrons à 06h30. Merci de choisir une heure d\'ouverture.');
       return;
     }
 
@@ -284,13 +344,14 @@
     btn.disabled = true;
     btn.textContent = 'Envoi en cours…';
 
-    const dateFormatee = new Date(date).toLocaleDateString('fr-FR', {
+    const dateFormatee = new Date(date + 'T12:00:00').toLocaleDateString('fr-FR', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-    let totalTexte = '';
-    let qteTexte = '';
-    if (produitEnCours.typeQte) {
+    // Calcul quantité et total
+    let qteTexte = 'N/A';
+    let totalTexte = 'N/A';
+    if (produitEnCours.typeQte && qte) {
       const total = (produitEnCours.prix * parseInt(qte)).toFixed(2).replace('.', ',');
       const label = produitEnCours.typeQte === 'cookies' ? 'cookie(s)' : 'personne(s)';
       qteTexte = `${qte} ${label}`;
@@ -299,11 +360,12 @@
 
     emailjs.send('service_l9hy8k5', 'template_1mcdtex', {
       to_email: 'nino.delecluse2710@gmail.com',
-      prenom, nom,
+      prenom,
+      nom,
       telephone: tel,
       produit: produitEnCours.nom,
-      quantite: qteTexte || 'N/A',
-      total: totalTexte || 'N/A',
+      quantite: qteTexte,
+      total: totalTexte,
       date: dateFormatee,
       heure
     }).then(() => {
@@ -339,9 +401,9 @@
             ${r.prenom} ${r.nom}<br>
             ${r.date} à ${r.heure}<br>
             Tél : ${r.tel}
-            ${r.quantite ? `<br>Quantité : ${r.quantite}` : ''}
+            ${r.quantite && r.quantite !== 'N/A' ? `<br>Quantité : ${r.quantite}` : ''}
           </p>
-          ${r.total ? `<p class="histo-prix">Total : ${r.total}</p>` : ''}
+          ${r.total && r.total !== 'N/A' ? `<p class="histo-prix">Total : ${r.total}</p>` : ''}
           <span class="histo-badge">✓ Confirmé</span>
         </div>
       `).join('') + '</div>';
